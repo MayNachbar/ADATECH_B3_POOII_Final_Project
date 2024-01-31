@@ -8,13 +8,13 @@ public interface TaskRepository<T extends BaseTask> {
 
     void saveTask(T task);
 
-    List<T> readAllTasks();
+    List<? extends BaseTask> readAllTasks(String category);
 
-    T readTaskById(Integer Id);
+    T readTaskById(String category, Integer Id);
 
-    T readTasksByDeadline(LocalDate date);
+    T readTasksByDeadline(LocalDate date, String category);
 
-    void updateTask(T task);
+    void updateTask(T task, String category);
 
-    void deleteTask(Integer id);
+    void deleteTask(String category, Integer id);
 }

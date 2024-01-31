@@ -21,9 +21,16 @@ public final class StudyTask extends BaseTask {
     }
 
     @Override
+    public String getCategory() {
+        return "Study";
+    }
+
+    @Override
     public String toString() {
-        return "######## Study Task ########\n" +
-                "Id: " + this.getId() + "\n"
+        return    "-----------------------------------\n"
+                + "    ######## Study Task ########\n"
+                + "-----------------------------------\n"
+                + "Id: " + this.getId() + "\n"
                 + "Title: " + this.getTitle() + "\n"
                 + "Description: " + this.getDescription() + "\n"
                 + "Responsible: " + this.getResponsible() + "\n"
@@ -31,6 +38,9 @@ public final class StudyTask extends BaseTask {
                 + "Priority: " + this.getPriority() + "\n"
                 + "Status: " + this.getStatus() + "\n"
                 + "Deadline: " + this.getDeadline() + "\n"
-                + "Created at: " + super.getCreatedAt();
+                + "Created at: " + super.getCreatedAt() + "\n"
+                + "Updated at: " + super.getUpdatedAt() + "\n"
+                + "Deleted at: " + super.getDeletedAt() + "\n"
+                + "Category: " + this.getCategory() + "\n";
     }
 }

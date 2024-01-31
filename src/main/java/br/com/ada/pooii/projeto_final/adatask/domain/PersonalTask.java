@@ -11,15 +11,25 @@ public final class PersonalTask extends BaseTask {
     }
 
     @Override
+    public String getCategory() {
+        return "Personal";
+    }
+
+    @Override
     public String toString() {
-        return "######## Personal Task ########\n" +
-                "Id: " + this.getId() + "\n"
+        return    "-----------------------------------\n"
+                + "  ######## Personal Task ########\n"
+                + "-----------------------------------\n"
+                + "Id: " + this.getId() + "\n"
                 + "Title: " + this.getTitle() + "\n"
                 + "Description: " + this.getDescription() + "\n"
                 + "Responsible: " + this.getResponsible() + "\n"
                 + "Priority: " + this.getPriority() + "\n"
                 + "Status: " + this.getStatus() + "\n"
                 + "Deadline: " + this.getDeadline() + "\n"
-                + "Created at: " + super.getCreatedAt();
+                + "Created at: " + super.getCreatedAt() + "\n"
+                + "Updated at: " + super.getUpdatedAt() + "\n"
+                + "Deleted at: " + super.getDeletedAt() + "\n"
+                + "Category: " + this.getCategory() + "\n";
     }
 }

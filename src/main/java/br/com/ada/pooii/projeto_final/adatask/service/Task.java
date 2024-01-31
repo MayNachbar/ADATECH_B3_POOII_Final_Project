@@ -9,13 +9,13 @@ public interface Task<T extends BaseTask> {
 
     void postTask(T task);
 
-    List<T> getAllTasks();
+    List<? extends BaseTask> getAllTasks(String category);
 
-    T getTaskById(Integer id);
+    T getTaskById(String category, Integer id);
 
-    T getTasksByDeadline(LocalDate date);
+    T getTasksByDeadline(LocalDate date, String category);
 
     void putTask(T task);
 
-    void deleteTask(Integer id);
+    void deleteTask(String category, Integer id);
 }

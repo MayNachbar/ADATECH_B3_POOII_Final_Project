@@ -15,37 +15,67 @@ public class TaskService<T extends BaseTask> implements Task<T> {
 
     @Override
     public void postTask(T task) {
+        if (task.getTitle() == null || task.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null or empty");
+        }
+        if (task.getDeadline().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Deadline cannot be before today");
+        }
+        if (task.getResponsible() == null) {
+            throw new IllegalArgumentException("Responsible cannot be null");
+        }
+        if (task.getPriority() == null) {
+            throw new IllegalArgumentException("Priority cannot be null");
+        }
         System.out.println("Saving task...");
         taskRepository.saveTask(task);
     }
 
     @Override
-    public List<T> getAllTasks() {
+    public List<? extends BaseTask> getAllTasks(String category) {
         System.out.println("Reading all tasks...");
-        return taskRepository.readAllTasks();
+        return taskRepository.readAllTasks(category);
     }
 
     @Override
-    public T getTaskById(Integer id) {
+    public T getTaskById(String category, Integer id) {
         System.out.println("Reading task by id: " + id);
-        return taskRepository.readTaskById(id);
+        return taskRepository.readTaskById(category, id);
     }
 
     @Override
-    public T getTasksByDeadline(LocalDate date) {
+    public T getTasksByDeadline(LocalDate date, String category) {
         System.out.println("Reading tasks by deadline: " + date);
-        return taskRepository.readTasksByDeadline(date);
+        return taskRepository.readTasksByDeadline(date, category);
     }
 
     @Override
     public void putTask(T task) {
+        if (task.getId() == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+        if (task.getTitle() == null || task.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null or empty");
+        }
+        if (task.getDeadline().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Deadline cannot be before today");
+        }
+        if (task.getResponsible() == null) {
+            throw new IllegalArgumentException("Responsible cannot be null");
+        }
+        if (task.getPriority() == null) {
+            throw new IllegalArgumentException("Priority cannot be null");
+        }
         System.out.println("Updating task...");
-        taskRepository.updateTask(task);
+        taskRepository.updateTask(task, task.getCategory());
     }
 
     @Override
-    public void deleteTask(Integer id) {
+    public void deleteTask(String category, Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
         System.out.println("Deleting task...");
-        taskRepository.deleteTask(id);
+        taskRepository.deleteTask(category,id);
     }
 }

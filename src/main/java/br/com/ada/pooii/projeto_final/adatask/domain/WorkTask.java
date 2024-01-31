@@ -21,9 +21,16 @@ public final class WorkTask extends BaseTask {
     }
 
     @Override
+    public String getCategory() {
+        return "Work";
+    }
+
+    @Override
     public String toString() {
-        return "######## Work Task ########\n" +
-                "Id: " + this.getId() + "\n"
+        return    "-----------------------------------\n"
+                + "    ######## Work Task ########\n"
+                + "-----------------------------------\n"
+                + "Id: " + this.getId() + "\n"
                 + "Title: " + this.getTitle() + "\n"
                 + "Description: " + this.getDescription() + "\n"
                 + "Responsible: " + this.getResponsible() + "\n"
@@ -31,6 +38,9 @@ public final class WorkTask extends BaseTask {
                 + "Priority: " + this.getPriority() + "\n"
                 + "Status: " + this.getStatus() + "\n"
                 + "Deadline: " + this.getDeadline() + "\n"
-                + "Created at: " + super.getCreatedAt();
+                + "Created at: " + super.getCreatedAt() + "\n"
+                + "Updated at: " + super.getUpdatedAt() + "\n"
+                + "Deleted at: " + super.getDeletedAt() + "\n"
+                + "Category: " + this.getCategory() + "\n";
     }
 }

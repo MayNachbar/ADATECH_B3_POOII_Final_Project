@@ -16,8 +16,10 @@ public abstract class BaseTask {
     private Priority priority;
     private Status status;
     private LocalDate deadline;
-
     private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private LocalDate deletedAt;
+    private String category;
 
     public BaseTask(String title, String description, User responsible, Priority priority, LocalDate deadline) {
         this.id = nextId++;
@@ -28,6 +30,7 @@ public abstract class BaseTask {
         this.status = TODO;
         this.deadline = deadline;
         this.createdAt = LocalDate.now();
+        this.category = getCategory();
     }
 
     public Integer getId() {
@@ -83,5 +86,25 @@ public abstract class BaseTask {
 
     public LocalDate getCreatedAt() {
         return createdAt;
+    }
+
+    public LocalDate getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDate getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDate deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public String getCategory() {
+        return null;
     }
 }

@@ -9,54 +9,123 @@ import java.util.Objects;
 
 public class InMemoryTaskRepository<T extends BaseTask> implements TaskRepository<T> {
     private final List<T> tasks = new ArrayList<>();
+    private final List<T> personalTasks = new ArrayList<>();
+    private final List<T> studyTasks = new ArrayList<>();
+    private final List<T> workTasks = new ArrayList<>();
 
     @Override
     public void saveTask(T taskToAdd) {
-        this.tasks.add(taskToAdd);
+        if (taskToAdd.getCategory().equals("Personal")) {
+            this.personalTasks.add(taskToAdd);
+        } else if (taskToAdd.getCategory().equals("Study")) {
+            this.studyTasks.add(taskToAdd);
+        } else if (taskToAdd.getCategory().equals("Work")) {
+            this.workTasks.add(taskToAdd);
+        } else {
+            throw new IllegalArgumentException("Invalid category");
+        }
     }
 
     @Override
-    public List<T> readAllTasks() {
-        if (!tasks.isEmpty()) {
-            return tasks;
+    public List<? extends BaseTask> readAllTasks(String category) {
+        if (category.equals("Personal")) {
+            return this.personalTasks;
+        } else if (category.equals("Study")) {
+            return this.studyTasks;
+        } else if (category.equals("Work")) {
+            return this.workTasks;
+        } else {
+            throw new IllegalArgumentException("Invalid category");
+        }
+    }
+
+    @Override
+    public T readTaskById(String category, Integer id) {
+        if (category.equals("Personal")) {
+            for (T task : personalTasks) {
+                if (task.getId().equals(id)) {
+                    return task;
+                }
+            }
+        } else if (category.equals("Study")) {
+            for (T task : studyTasks) {
+                if (task.getId().equals(id)) {
+                    return task;
+                }
+            }
+        } else if (category.equals("Work")) {
+            for (T task : workTasks) {
+                if (task.getId().equals(id)) {
+                    return task;
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid ID or category");
+        }
+        return null;
+    }
+
+    public T readTasksByDeadline(LocalDate date, String category) {
+        if (category.equals("Personal")) {
+            for (T task : personalTasks) {
+                if (task.getDeadline().equals(date)) {
+                    return task;
+                }
+            }
+        } else if (category.equals("Study")) {
+            for (T task : studyTasks) {
+                if (task.getDeadline().equals(date)) {
+                    return task;
+                }
+            }
+        } else if (category.equals("Work")) {
+            for (T task : workTasks) {
+                if (task.getDeadline().equals(date)) {
+                    return task;
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid category");
         }
         return null;
     }
 
     @Override
-    public T readTaskById(Integer id) {
-        for (T task : tasks){
-            if (Objects.equals(task.getId(), id)){
-                return task;
-            }
+    public void updateTask(T updatedTask, String category) {
+        if (category.equals("Personal")) {
+            Integer taskId = updatedTask.getId();
+            readTaskById(category, taskId);
+            updatedTask.setUpdatedAt(LocalDate.now());
+            personalTasks.set(taskId, updatedTask);
+        } else if (category.equals("Study")) {
+            Integer taskId = updatedTask.getId();
+            readTaskById(category, taskId);
+            updatedTask.setUpdatedAt(LocalDate.now());
+            studyTasks.set(taskId, updatedTask);
+        } else if (category.equals("Work")) {
+            Integer taskId = updatedTask.getId();
+            readTaskById(category, taskId);
+            updatedTask.setUpdatedAt(LocalDate.now());
+            workTasks.set(taskId, updatedTask);
+        } else {
+            throw new IllegalArgumentException("Invalid category");
         }
-        return null;
     }
 
     @Override
-    public void updateTask(T updatedTask) {
-        Integer taskId = updatedTask.getId();
+    public void deleteTask(String category, Integer id) {
+        T taskToDelete = readTaskById(category, id);
 
-        for (int i = 0; i < tasks.size(); i++) {
-            BaseTask existingTask = tasks.get(i);
-            if (existingTask.getId().equals(taskId)) {
-                tasks.set(i, updatedTask);
-                return;
+        if (taskToDelete != null) {
+            if (category.equals("Personal")) {
+                personalTasks.remove(taskToDelete);
+            } else if (category.equals("Study")) {
+                studyTasks.remove(taskToDelete);
+            } else if (category.equals("Work")) {
+                workTasks.remove(taskToDelete);
+            } else {
+                throw new IllegalArgumentException("Invalid category");
             }
         }
-    }
-
-    @Override
-    public void deleteTask(Integer id) {
-        tasks.removeIf(task -> Objects.equals(task.getId(), id));
-    }
-
-    public T readTasksByDeadline(LocalDate date) {
-        for (T task : tasks) {
-            if (task.getDeadline().equals(date)) {
-                return task;
-            }
-        }
-        return null;
     }
 }
